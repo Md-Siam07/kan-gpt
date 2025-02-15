@@ -84,10 +84,10 @@ jobs:
           json-output: true
           label: Generate Changelog
           task: get-measurement
-      - name: Release
-        uses: softprops/action-gh-release@v2
-        with:
-          body_path: release_message.md
+      # - name: Release
+      #   uses: softprops/action-gh-release@v2
+      #   with:
+      #     body_path: release_message.md
       - id: display-measurement
         name: Display Energy Results
         uses: green-coding-solutions/eco-ci-energy-estimation@v4
