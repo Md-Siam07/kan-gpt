@@ -20,11 +20,9 @@ jobs:
         with:
           python-version: 3.x
       - name: Install dependencies
-        run: 'python -m pip install --upgrade pip
-
-          pip install setuptools wheel twine
-
-          '
+        run: |
+          python -m pip install --upgrade pip
+          pip install setuptools wheel
       - id: measurement-4
         name: Record Measurement After Install dependencies
         uses: green-coding-solutions/eco-ci-energy-estimation@v4
@@ -32,21 +30,14 @@ jobs:
           json-output: true
           label: Install dependencies
           task: get-measurement
-      - env:
-          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
-          TWINE_USERNAME: __token__
-        name: Build and publish
-        run: 'python setup.py sdist bdist_wheel
-
-          twine upload dist/*
-
-          '
+      - name: Build package
+        run: python setup.py sdist bdist_wheel
       - id: measurement-6
-        name: Record Measurement After Build and publish
+        name: Record Measurement After Build
         uses: green-coding-solutions/eco-ci-energy-estimation@v4
         with:
           json-output: true
-          label: Build and publish
+          label: Build package
           task: get-measurement
       - id: display-measurement
         name: Display Energy Results
@@ -61,6 +52,7 @@ jobs:
         with:
           name: total-energy-consumption
           path: total_energy_consumption.json
+
   release:
     name: Create Release
     permissions:
